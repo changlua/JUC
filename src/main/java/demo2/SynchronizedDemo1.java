@@ -1,15 +1,18 @@
-package demo2ProduceAndCustomer;
+package demo2;
 
 /**
- * @ClassName SynchronizedDemo
+ * @ClassName SynchronizedDemo1
  * @Author ChangLu
- * @Date 2021/3/25 17:43
- * @Description 生产者与消费者问题(使用synchronized)
+ * @Date 2021/3/25 17:57
+ * @Description 使用synchronized模拟生产者消费者问题(该例子两个线程下无问题，超过两个线程出现安全问题
+ * 原因描述：在多个生产线程、消费线程情况下生产、消费操作仅使用if判断会有线程安全问题。
+ *          若仅有1个生产线程、消费线程则不会出现安全问题。
  */
-public class SynchronizedDemo2 {
+public class SynchronizedDemo1 {
     public static void main(String[] args) {
-        Data2 data = new Data2();
-        //两个线程为生产者、两个线程为消费者
+        Data data = new Data();
+        //一个线程为生产者、一个线程为消费者
+        //仅有两个线程时不会出现问题，当出现三四个线程时会出现安全问题
         new Thread(()->{
             for (int i = 0; i < 20; i++) {
                 try {
@@ -53,13 +56,13 @@ public class SynchronizedDemo2 {
     }
 }
 
-class Data2{
+class Data{
     private int num;
 
     //+1操作
     public synchronized void add() throws InterruptedException {
-        //使用while确保在被唤醒时不会直接执行下面代码
-        while (num != 0){
+        //num≠0阻塞释放锁
+        if (num != 0){
             wait();
         }
         num++;
@@ -69,7 +72,8 @@ class Data2{
 
     //-1操作
     public synchronized void minus() throws InterruptedException {
-        while (num == 0){
+        //num为0阻塞释放锁
+        if (num == 0){
             wait();
         }
         num--;

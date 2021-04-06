@@ -1,4 +1,4 @@
-package demo1SimpleTicketProblem;
+package demo1;
 
 /**
  * @ClassName SynchronizedDemo

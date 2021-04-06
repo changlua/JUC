@@ -1,4 +1,4 @@
-package demo1SimpleTicketProblem;
+package demo1;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
